@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 
 namespace FileExercises
 {
@@ -41,14 +42,28 @@ namespace FileExercises
         static void WriteToFile(string fileName)
         {
             //var fileName = "number.txt";
-            List<int> fileNums = new List<int> { 7, 12, 13, 15, 12, 11 }; 
+            List<int> fileNums = new List<int> { 7, 12, 13, 15, 12, 11 };
             //File.Create(fileName);
-            using StreamWriter streamWriter = new StreamWriter(fileName, true);
 
-            foreach(int number in fileNums)
+            for (int i = 0; i <= 5; i++)
             {
-                streamWriter.WriteLine(number);
+                try
+                {
+                    using StreamWriter streamWriter = new StreamWriter(fileName, true);
+
+                    foreach (int number in fileNums)
+                    {
+                        streamWriter.WriteLine(number);
+                    }
+
+                    break;
+                }
+                catch (IOException) when (i<= 5)
+                {
+                    Thread.Sleep(1000);
+                }
             }
+           
         }
         
         static void WriteDictionary(string fileName)
@@ -60,27 +75,49 @@ namespace FileExercises
             translation.Add("computer", "computadora");
             translation.Add("exercise", "ejercicio");
 
-            using StreamWriter streamWriter = new StreamWriter(fileName);
-
-            foreach (var tran in translation)
+            for(int i = 0; i <= 5; i++)
             {
-                streamWriter.WriteLine(tran);
+                try
+                {
+                    using StreamWriter streamWriter = new StreamWriter(fileName);
+
+                    foreach (var tran in translation)
+                    {
+                        streamWriter.WriteLine(tran);
+                    }
+                }
+                catch (IOException) when (i <= 5)
+                {
+                    Thread.Sleep(1000);
+                }
             }
+           
            
         }
 
         static void ReadFile(string fileName)
         {
-            using StreamReader streamReader = new StreamReader(fileName);
-
-            int sum = 0;
-
-            while (!streamReader.EndOfStream)
+            for (int i = 0; i <= 5; i++)
             {
-                sum += int.Parse(streamReader.ReadLine());
-            }
+                try
+                {
+                    using StreamReader streamReader = new StreamReader(fileName);
 
-            Console.WriteLine($"Your sum is {sum}");
+                    int sum = 0;
+
+                    while (!streamReader.EndOfStream)
+                    {
+                        sum += int.Parse(streamReader.ReadLine());
+                    }
+                    Console.WriteLine($"Your sum is {sum}");
+
+                    break;
+                }
+                catch (IOException) when (i <= 5)
+                {
+                    Thread.Sleep(1000);
+                }
+            }
         }
     }
 }
