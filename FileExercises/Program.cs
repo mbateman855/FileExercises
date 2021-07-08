@@ -27,6 +27,10 @@ namespace FileExercises
 
             WriteDictionary(dictFileName);
 
+            Console.WriteLine("Enter a word in English:");
+            string inputWord = Console.ReadLine();
+            ReadDictFile(dictFileName, inputWord);
+
             File.Delete(dictFileName);
         }
         static void CreateFile(string fileName)
@@ -91,8 +95,33 @@ namespace FileExercises
                     Thread.Sleep(1000);
                 }
             }
-           
-           
+        }
+
+        static void ReadDictFile(string fileName, string input)
+        {
+            for (int i = 0; i <=5; i++)
+            {
+                try
+                {
+                    using StreamReader streamReader = new StreamReader(fileName);
+
+                    while (!streamReader.EndOfStream)
+                    {
+                        var singleLine = streamReader.ReadLine();
+
+
+
+                        if (singleLine.Contains(input))
+                        {
+                            Console.WriteLine($"{input} is {singleLine.Remove(0, input.Length)}");
+                        }
+                    }
+                }
+                catch (IOException) when (i <= 5)
+                {
+                    Thread.Sleep(1000);
+                }
+            }
         }
 
         static void ReadFile(string fileName)
